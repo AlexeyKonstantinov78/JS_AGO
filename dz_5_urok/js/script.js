@@ -10,7 +10,6 @@ let money,
     // expenses1,
     // expenses2,
     expenses = [],
-
     accumulatedMonth,
     expensesAmount;
     
@@ -20,11 +19,16 @@ function isNumbers(n) {
 
 
 function start() {
-    money = prompt('Ваш месячный доход');
+    // money = prompt('Ваш месячный доход'); за коментировал т.к. два раза спрашвает из-за цикла do while
 
-    while (!isNumbers(money)) {                                              // 3 вариант
+    do{                                                                         
         money = prompt('Ваш месячный доход');
-    }
+    }    
+    while (!isNumbers(money));
+
+    // while (!isNumbers(money)) {                                              // 3 вариант
+    //     money = prompt('Ваш месячный доход');
+    // }
 
     // while (isNaN(parseFloat(money))) {                                              // 2 вариант parseFloat конвертирует в число isNaN проверка на число
     //     money = prompt('Ваш месячный доход');
@@ -41,7 +45,7 @@ function getExpensesMonth () {          // обязательные расход
     let sum = 0;
 
     for (let i = 0; i < 2; i++) {
-
+        let mon;
         // if (i === 0) {                                                           для себя на память
         //     expenses1 = prompt('Введите обязательную статью расходов?'); 
         // } else if (i === 1) {
@@ -49,7 +53,11 @@ function getExpensesMonth () {          // обязательные расход
         // }
         expenses[i] =  prompt('Введите обязательную статью расходов?'); 
 
-        sum += +prompt('Во сколько это обойдется?');
+        do {
+            mon = prompt('Во сколько это обойдется?');
+        }
+        while (!isNumbers(mon));
+        sum += +mon;
     }
 
     return sum;
@@ -64,7 +72,11 @@ function getAccumulatedMonth () {       // Накопления за месяц 
 accumulatedMonth = getAccumulatedMonth(); // результат в переменной нак. за мес. - расход
 
 function getTargetMonth () {            //  достижение цели в месяцах
-    return mission / accumulatedMonth;
+    let numbersOfMonths = mission / accumulatedMonth;
+
+    if (numbersOfMonths < 0) {return 'Цель не будет достигнута!';
+        } else {return Math.ceil(mission / accumulatedMonth);
+        }
 }
 
 budgetDay = accumulatedMonth / 30;    // бюджет надень за минусов расходов
@@ -85,6 +97,6 @@ console.log('income: ', showTypeOf(income));
 console.log('deposit: ',showTypeOf(deposit));
 console.log('Расходы за месяц: ' + expensesAmount);
 console.log('Возможные расходы в виде массива: ', addExpenses.toLowerCase().split(', '));
-console.log('Cрок достижения цели в месяцах: ' + Math.ceil(getTargetMonth()));    
+console.log('Cрок достижения цели в месяцах: ' + getTargetMonth());    
 console.log('Бжюджет на день: ' + budgetDay.toFixed(2));
 console.log(getStatusIncome(budgetDay));  // статус

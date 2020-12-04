@@ -191,11 +191,10 @@ buttomBtnPlusIncomeAdd.addEventListener('click', appData.addIncomeBlock);
 
 inputPeriodSelect.addEventListener('input', appData.getPeriodAmount);
 
-
 inputSalaryAmount.addEventListener('input', function(){
     if(inputSalaryAmount.value !== '') {
-        buttomStart.style.display = '';
         inputSalaryAmount.value = inputSalaryAmount.value.replace(/[^0-9]/,'');
+        if(inputSalaryAmount.value !== ''){buttomStart.style.display = '';}         
     } else {
         buttomStart.style.display = 'none';
     }

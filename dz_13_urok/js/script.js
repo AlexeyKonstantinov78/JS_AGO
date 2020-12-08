@@ -123,6 +123,17 @@ let appData = {
             appData.showResult();
             inputTargetMonthValue.value = '';
             inputBudgetDayValue.value = '';
+            inputIncomeItems = document.querySelectorAll('.income-items');
+            if(inputIncomeItems.length > 1) {            
+                inputIncomeItems[1].remove();
+                buttomBtnPlusIncomeAdd.style.display = '';
+            }
+            expensesItems = document.querySelectorAll('.expenses-items');
+            if(expensesItems.length > 1) {
+                (expensesItems.length ===3) ? expensesItems[2].remove() : '';
+                (expensesItems.length ===2) ? expensesItems[1].remove() : '';
+                buttomBtnPlusExpensesAdd.style.display = '';
+            }
         });
 
     },

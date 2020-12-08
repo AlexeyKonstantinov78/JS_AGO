@@ -58,13 +58,68 @@ let appData = {
         buttomBtnPlusIncomeAdd.setAttribute("disabled", "disabled");
         buttomBtnPlusExpensesAdd.setAttribute("disabled", "disabled");
         document.getElementById('cancel').style.display = 'initial';
+        AdditionalIncomeItem.forEach(function(item){
+            item.setAttribute("disabled", "disabled");
+        });
+        document.querySelectorAll('.income-title').forEach(function(item){
+            item.setAttribute("disabled", "disabled");
+        });
+        document.querySelectorAll('.income-amount').forEach(function(item){
+            item.setAttribute("disabled", "disabled");
+        });
+        document.querySelectorAll('.expenses-title').forEach(function(item){
+            item.setAttribute("disabled", "disabled");
+        });
+        document.querySelectorAll('.expenses-amount').forEach(function(item){
+            item.setAttribute("disabled", "disabled");
+        });
+        inputAdditionalexpensesitem.setAttribute("disabled", "disabled");
+        inputTargetAmount.setAttribute("disabled", "disabled");
+
         buttomCancel.addEventListener('click', function(){
-            buttomStart.style.display = '';
             inputSalaryAmount.removeAttribute("disabled");
             buttomBtnPlusIncomeAdd.removeAttribute("disabled");
             buttomBtnPlusExpensesAdd.removeAttribute("disabled");
             document.getElementById('cancel').style.display = 'none';
             inputSalaryAmount.value = '';
+            AdditionalIncomeItem.forEach(function(item){
+                item.removeAttribute("disabled");
+                item.value = '';
+            });
+            document.querySelectorAll('.income-title').forEach(function(item){
+                item.removeAttribute("disabled");
+                item.value = '';
+            });
+            document.querySelectorAll('.income-amount').forEach(function(item){
+                item.removeAttribute("disabled");
+                item.value = '';
+            });
+            document.querySelectorAll('.expenses-title').forEach(function(item){
+                item.removeAttribute("disabled");
+                item.value = '';
+            });
+            document.querySelectorAll('.expenses-amount').forEach(function(item){
+                item.removeAttribute("disabled");
+                item.value = '';
+            });
+            inputAdditionalexpensesitem.removeAttribute("disabled");
+            inputAdditionalexpensesitem.value = '';
+            inputTargetAmount.removeAttribute("disabled");
+            inputTargetAmount.value = '';
+            
+            appData.income = {};
+            appData.incomeMonth = 0;
+            appData.addIncome = [];
+            appData.expenses = {};
+            appData.addExpenses = [];
+            appData.deposit = false;
+            appData.percentDeposit = 0;
+            appData.moneyDeposit = 0;
+            appData.budget = 0;
+            appData.budgetDay = 0;
+            appData.budgetMonth = 0;
+            appData.expensesMonth = 0;
+            appData.showResult();
         });
 
     },
@@ -188,7 +243,7 @@ let appData = {
         inputIncomePeriodValue.value = appData.calcSavedMoney();
     },
     calcSavedMoney: function(){                             // calcPeriod
-        return appData.budgetMonth * inputPeriodSelect.value;
+        return this.budgetMonth * inputPeriodSelect.value;
     }
 }
 
@@ -219,39 +274,33 @@ inputSalaryAmount.addEventListener('input', function(){
 });
 
 inputAdditionalexpensesitem.addEventListener('input', function() {
-    inputAdditionalexpensesitem.value = inputAdditionalexpensesitem.value.replace(/[^А-Яа-я]/,'');
-})
+    inputAdditionalexpensesitem.value = inputAdditionalexpensesitem.value.replace(/[^А-Яа-я, ]/,'');
+});
 
 inputTargetAmount.addEventListener('input', function() {
     inputTargetAmount.value = inputTargetAmount.value.replace(/[^0-9]/,'');
-})
+});
 
 AdditionalIncomeItem[0].addEventListener('input', function() {
     AdditionalIncomeItem[0].value = AdditionalIncomeItem[0].value.replace(/[^А-Яа-я]/,'');
-})
+});
 
 AdditionalIncomeItem[1].addEventListener('input', function() {
     AdditionalIncomeItem[1].value = AdditionalIncomeItem[1].value.replace(/[^А-Яа-я]/,'');
-})
+});
 
 document.querySelector('.income').addEventListener('input', function(){
     inputIncomeItems = document.querySelectorAll('.income-items');
-
     for (let i = 0; i < inputIncomeItems.length; i++) {
-        
         inputIncomeItems[i].querySelector('.income-title').value = inputIncomeItems[i].querySelector('.income-title').value.replace(/[^А-Яа-я]/,'');
-
         inputIncomeItems[i].querySelector('.income-amount').value = inputIncomeItems[i].querySelector('.income-amount').value.replace(/[^0-9]/,'');
-};
-})
+    }
+});
 
 document.querySelector('.expenses').addEventListener('input', function(){
     expensesItems = document.querySelectorAll('.expenses-items');
-
     for (let i = 0; i < expensesItems.length; i++) {
-
         expensesItems[i].querySelector('.expenses-title').value = expensesItems[i].querySelector('.expenses-title').value.replace(/[^А-Яа-я]/,'');
-
         expensesItems[i].querySelector('.expenses-amount').value = expensesItems[i].querySelector('.expenses-amount').value.replace(/[^0-9]/,'');
-    };
-})
+    }
+});

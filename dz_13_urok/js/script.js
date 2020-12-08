@@ -130,8 +130,9 @@ let appData = {
             }
             expensesItems = document.querySelectorAll('.expenses-items');
             if(expensesItems.length > 1) {
-                (expensesItems.length ===3) ? expensesItems[2].remove() : '';
-                (expensesItems.length ===2) ? expensesItems[1].remove() : '';
+                for (let i = expensesItems.length - 1; i > 0 ; i--) {
+                expensesItems[i].remove();
+                }
                 buttomBtnPlusExpensesAdd.style.display = '';
             }
         });

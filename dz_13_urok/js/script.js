@@ -106,7 +106,8 @@ let appData = {
             inputAdditionalexpensesitem.value = '';
             inputTargetAmount.removeAttribute("disabled");
             inputTargetAmount.value = '';
-            
+            document.querySelector('#deposit-check').checked = false;
+
             appData.income = {};
             appData.incomeMonth = 0;
             appData.addIncome = [];
@@ -120,6 +121,8 @@ let appData = {
             appData.budgetMonth = 0;
             appData.expensesMonth = 0;
             appData.showResult();
+            inputTargetMonthValue.value = '';
+            inputBudgetDayValue.value = '';
         });
 
     },

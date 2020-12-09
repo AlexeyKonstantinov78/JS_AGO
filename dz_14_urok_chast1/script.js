@@ -25,10 +25,6 @@ DomElement.prototype.select = function(){
     }
 }
 
-DomElement.prototype.style = function () {
-
-}
-
 let domElement1 = new DomElement('.des', 100, 100, 'red', 28),
     domElement2 = new DomElement('#des', 30, 300, 'green', 20);
 

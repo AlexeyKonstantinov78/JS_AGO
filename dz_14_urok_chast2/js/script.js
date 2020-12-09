@@ -257,6 +257,7 @@ while (!isNumbers(moneyDeposit));
 this.moneyDeposit = moneyDeposit;
 };
 AppData.prototype.getPeriodAmount = function(){
+    console.log(this);
 periodAmount.textContent = inputPeriodSelect.value;
 inputIncomePeriodValue.value = this.calcSavedMoney();
 };
@@ -273,7 +274,7 @@ AppData.prototype.eventsListeners = function(){
     buttomStart.addEventListener('click', this.start.bind(this));
     buttomBtnPlusExpensesAdd.addEventListener('click', this.addExpensesBlock);
     buttomBtnPlusIncomeAdd.addEventListener('click', this.addIncomeBlock);
-    inputPeriodSelect.addEventListener('input', this.getPeriodAmount);
+    inputPeriodSelect.addEventListener('input', this.getPeriodAmount.bind(this));
     inputSalaryAmount.addEventListener('input', function(){
         if(inputSalaryAmount.value !== '') {
             inputSalaryAmount.value = inputSalaryAmount.value.replace(/[^0-9]/,'');

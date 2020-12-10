@@ -1,27 +1,28 @@
 'use strict';
 
-let inputSalaryAmount = document.querySelector('.salary-amount'),
-    inputIncomeItems = document.querySelectorAll('.income-items'),
-    buttomBtnPlusIncomeAdd = document.getElementsByTagName('button')[0],
-    AdditionalIncomeItem = document.querySelectorAll('.additional_income-item'),    
-    expensesItems = document.querySelectorAll('.expenses-items'),
-    buttomBtnPlusExpensesAdd = document.getElementsByTagName('button')[1],
-    inputAdditionalexpensesitem = document.querySelector('.additional_expenses-item'),
-    depositCheck = document.querySelector('#deposit-check'),
-    inputDepositAmount = document.querySelector('.deposit-amount'),    // поле ввода скрыто
-    inputDepositPercent = document.querySelector('.deposit-percent'),  // поле ввода скрыто
-    inputTargetAmount = document.querySelector('.target-amount'),
-    inputPeriodSelect = document.querySelector('.period-select'),
-    periodAmount =document.querySelector('.period-amount'),
-    inputBudgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
-    inputBudgetDayValue = document.getElementsByClassName('budget_day-value')[0],
-    inputExpensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
-    inputAdditionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
-    inputAdditionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
-    inputIncomePeriodValue = document.getElementsByClassName('income_period-value')[0],
-    inputTargetMonthValue = document.getElementsByClassName('target_month-value')[0],
-    buttomStart = document.querySelector('#start'),
-    buttomCancel = document.querySelector('#cancel');  // кнопка скрыта.
+const inputSalaryAmount = document.querySelector('.salary-amount'),
+        buttomBtnPlusIncomeAdd = document.getElementsByTagName('button')[0],
+        AdditionalIncomeItem = document.querySelectorAll('.additional_income-item'),    
+        buttomBtnPlusExpensesAdd = document.getElementsByTagName('button')[1],
+        inputAdditionalexpensesitem = document.querySelector('.additional_expenses-item'),
+        depositCheck = document.querySelector('#deposit-check'),
+        inputDepositAmount = document.querySelector('.deposit-amount'),    // поле ввода скрыто
+        inputDepositPercent = document.querySelector('.deposit-percent'),  // поле ввода скрыто
+        inputTargetAmount = document.querySelector('.target-amount'),
+        inputPeriodSelect = document.querySelector('.period-select'),
+        periodAmount =document.querySelector('.period-amount'),
+        inputBudgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
+        inputBudgetDayValue = document.getElementsByClassName('budget_day-value')[0],
+        inputExpensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
+        inputAdditionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
+        inputAdditionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
+        inputIncomePeriodValue = document.getElementsByClassName('income_period-value')[0],
+        inputTargetMonthValue = document.getElementsByClassName('target_month-value')[0],
+        buttomStart = document.querySelector('#start'),
+        buttomCancel = document.querySelector('#cancel');  // кнопка скрыта.
+
+let expensesItems = document.querySelectorAll('.expenses-items'),
+    inputIncomeItems = document.querySelectorAll('.income-items');
     
 function isNumbers(n) { 
     return !isNaN(parseFloat(n)) && isFinite(n);   // isFinite булиевый оператор проверять счисло бесконечное или нет проверка на число
@@ -31,7 +32,8 @@ function isString(val) {
     return isNaN(val); // && !val.trim();
 }
 
-const AppData = function() {
+class AppData {
+    constructor(){
     this.budget = 0;
     this.budgetDay = 0;
     this.budgetMonth = 0;
@@ -44,8 +46,9 @@ const AppData = function() {
     this.percentDeposit = 0;
     this.moneyDeposit = 0;
     this.addExpenses = [];
-    
-};
+    }
+}
+
 AppData.prototype.start = function () {
     this.budget = +inputSalaryAmount.value.replace([1-90], '');
     this.getExpenses();
@@ -57,6 +60,7 @@ AppData.prototype.start = function () {
     this.showResult();
     this.reset();
 };
+
 AppData.prototype.reset = function(){
     buttomStart.style.display = 'none';
     inputSalaryAmount.setAttribute("disabled", "disabled");
@@ -153,7 +157,7 @@ AppData.prototype.showResult = function(){
     
 };
 AppData.prototype.addExpensesBlock = function(){
-    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    const cloneExpensesItem = expensesItems[0].cloneNode(true);
         cloneExpensesItem.querySelector('.expenses-title').value = '';
         cloneExpensesItem.querySelector('.expenses-amount').value = '';
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, buttomBtnPlusExpensesAdd);
@@ -172,7 +176,7 @@ AppData.prototype.getExpenses = function() {
     });
 };
 AppData.prototype.addIncomeBlock = function() {
-    let cloneIncomeItem =  inputIncomeItems[0].cloneNode(true);
+    const cloneIncomeItem =  inputIncomeItems[0].cloneNode(true);
         cloneIncomeItem.querySelector('.income-title').value = '';
         cloneIncomeItem.querySelector('.income-amount').value = '';
         inputIncomeItems[0].parentNode.insertBefore(cloneIncomeItem, buttomBtnPlusIncomeAdd);
@@ -244,7 +248,7 @@ if (date < 0) return 'Что то пошло не так';
 };
 AppData.prototype.getInfoDeposit = function(){
 let percentDeposit,
-moneyDeposit;
+    moneyDeposit;
 do{
 percentDeposit = prompt('Какой годовой процент?', '10');
 }
@@ -257,7 +261,6 @@ while (!isNumbers(moneyDeposit));
 this.moneyDeposit = moneyDeposit;
 };
 AppData.prototype.getPeriodAmount = function(){
-    console.log(this);
 periodAmount.textContent = inputPeriodSelect.value;
 inputIncomePeriodValue.value = this.calcSavedMoney();
 };

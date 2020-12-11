@@ -88,6 +88,9 @@ AppData.prototype.reset = function(){
     });
     inputAdditionalexpensesitem.setAttribute("disabled", "disabled");
     inputTargetAmount.setAttribute("disabled", "disabled");
+    depositBank.setAttribute("disabled", "disabled");
+    depositAmount.setAttribute("disabled", "disabled");
+    depositPercen.setAttribute("disabled", "disabled");
     const _this = this;
     buttomCancel.addEventListener('click', function(){
         inputSalaryAmount.removeAttribute("disabled");
@@ -118,6 +121,9 @@ AppData.prototype.reset = function(){
         inputAdditionalexpensesitem.removeAttribute("disabled");
         inputAdditionalexpensesitem.value = '';
         inputTargetAmount.removeAttribute("disabled");
+        depositBank.removeAttribute("disabled");
+        depositAmount.removeAttribute("disabled");
+        depositPercen.removeAttribute("disabled");
         inputTargetAmount.value = '';
         document.querySelector('#deposit-check').checked = false;
         _this.income = {};
@@ -147,6 +153,13 @@ AppData.prototype.reset = function(){
             }
             buttomBtnPlusExpensesAdd.style.display = '';
         }
+        depositBank.style.display = 'none';
+        depositAmount.style.display = 'none';
+        depositPercen.style.display = 'none';
+        depositBank.value = '';
+        depositAmount.value = ''; 
+        depositPercen.value = '';
+        this.deposit = false;
     });
 
 };
@@ -254,19 +267,9 @@ if (date < 0) return 'Что то пошло не так';
 };
 
 AppData.prototype.getInfoDeposit = function(){
-let percentDeposit,
-    moneyDeposit;
     if(this.deposit){
-        do{
-            percentDeposit = depositPercen.value;
-            }
-            while (!isNumbers(percentDeposit));
-            this.percentDeposit = percentDeposit;
-            do {
-            moneyDeposit = depositAmount.value;
-            }
-            while (!isNumbers(moneyDeposit));
-            this.moneyDeposit = moneyDeposit;
+        this.percentDeposit = depositPercen.value;
+        this.moneyDeposit = depositAmount.value;
     }
 };
 
@@ -281,7 +284,8 @@ return this.budgetMonth * inputPeriodSelect.value;
 AppData.prototype.chengePercent = function() {
     const valueSelect = this.value;
     if(valueSelect === 'other') {
-        // домашнее задание
+        depositPercen.style.display = 'inline-block';
+        
     } else {
         depositPercen.value = valueSelect;
     }
@@ -297,8 +301,9 @@ AppData.prototype.depositHandler = function(){
     } else {
         depositBank.style.display = 'none';
         depositAmount.style.display = 'none';
+        depositPercen.style.display = 'none';
         depositBank.value = '';
-        depositAmount.value = '';
+        depositAmount.value = ''; 
         this.deposit = false;
         depositBank.removeEventListener('change', this.chengePercent); 
     }
@@ -308,8 +313,7 @@ AppData.prototype.eventsListeners = function(){
     document.addEventListener('DOMContentLoaded', function(){
         if(inputSalaryAmount.value === '') {
               buttomStart.style.display = 'none';
-                    
-          } 
+            } 
     });   
     buttomStart.addEventListener('click', this.start.bind(this));
     buttomBtnPlusExpensesAdd.addEventListener('click', this.addExpensesBlock);
@@ -355,6 +359,20 @@ AppData.prototype.eventsListeners = function(){
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
     depositAmount.addEventListener('input', function() {
         depositAmount.value = depositAmount.value.replace(/[^0-9]/,'');
+    });
+    depositPercen.addEventListener('input', function() {
+        depositPercen.value = depositPercen.value.replace(/[^0-9]/,'');
+        next:
+        for( ; ; ){
+            if(depositPercen.value <0 || depositPercen.value >100) {
+                buttomStart.setAttribute("disabled", "disabled");
+                alert('Введите правильный процент! ');
+                break next;
+            } else {
+                buttomStart.removeAttribute("disabled");
+                break;
+            }
+        }
     });
 };
 

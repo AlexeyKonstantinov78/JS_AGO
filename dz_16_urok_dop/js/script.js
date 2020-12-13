@@ -126,7 +126,7 @@ AppData.prototype.reset = function(){
     depositAmount.setAttribute("disabled", "disabled");
     depositPercen.setAttribute("disabled", "disabled");
     const _this = this;
-    buttomCancel.addEventListener('click', this.cansel);
+    buttomCancel.addEventListener('click', this.cansel.bind(this));
 };
 AppData.prototype.cansel = function(){    
     localStorage.removeItem('appData');
@@ -179,6 +179,7 @@ AppData.prototype.cansel = function(){
     depositPercen.removeAttribute("disabled");
     inputTargetAmount.value = '';
     document.querySelector('#deposit-check').checked = false;
+    console.log(this);
     this.income = {};
     this.incomeMonth = 0;
     this.addIncome = [];
@@ -371,9 +372,7 @@ AppData.prototype.eventsListeners = function(){
 
                 for (let key in appData){
                     let rezultat  = false;
-                    console.log(key, appData[key]);
-
-                    rezult.forEach(function(item){
+                        rezult.forEach(function(item){
                         let i = item.split('=');
                                     
                         if (key === i[0].trim()) {rezultat = true;}

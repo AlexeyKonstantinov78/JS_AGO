@@ -41,9 +41,9 @@ window.addEventListener('DOMContentLoaded', function(){
         }
 
         updateClock();
+        const idInterval = setInterval(countTimer, 1000, '31 december 2020');
     }
 
-    const idInterval = setInterval(countTimer, 1000, '31 december 2020');
-    // countTimer('31 december 2020');
+    countTimer('31 december 2020');
     // setInterval(countTimer,1000, '31 december 2020');
 });

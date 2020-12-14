@@ -1,0 +1,2 @@
+'ude strict';
+

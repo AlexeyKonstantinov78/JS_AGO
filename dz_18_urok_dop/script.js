@@ -8,8 +8,7 @@ const timeDays = document.querySelector('#time-days'),
     date = new Date(),    
     day = date.getDay(),
     count = Math.floor(((new Date('31 december 2020')).getTime() - date.getTime()) / 1000 / 60 / 60 /24);
-    date.setHours('0');
-    
+        
     function partOfDay(){
         if (date.getHours() >= 4 && date.getHours() < 10) {return 'Доброе утро';}
         if (date.getHours() >= 10 && date.getHours() < 17) {return 'Добрый день';}
@@ -23,5 +22,5 @@ week.textContent = weekTime[day];
 time.textContent = date.toLocaleTimeString('en');
 timeKol.textContent = count;
 
-console.log(date.getHours());
+
 

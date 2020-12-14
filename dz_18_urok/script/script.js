@@ -20,20 +20,30 @@ window.addEventListener('DOMContentLoaded', function(){
             return {timeRemaining, hours, minutes, seconds};
         }
 
+        function decZero(n) {
+            if (n >= 0 && n < 10) {return '0'+n;}
+            return n;
+        }
+
         function updateClock(){
             let timer = getTimerRemin();
 
-            timerHours.textContent = timer.hours;
-            timerMinutes.textContent = timer.minutes;
-            timerSeconds.textContent = timer.seconds;
-            if(timer.timeRemaining > 0) {
-                setTimeout(updateClock, 1000);
+            timerHours.textContent = decZero(timer.hours);
+            timerMinutes.textContent = decZero(timer.minutes);
+            timerSeconds.textContent = decZero(timer.seconds);
+            if (timer.timeRemaining <= 0) {
+            //     // setTimeout(updateClock, 1000);
+                clearInterval(idInterval);
+                timerHours.textContent = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
             }
         }
 
         updateClock();
     }
 
-    countTimer('31 december 2020');
+    const idInterval = setInterval(countTimer, 1000, '31 december 2020');
+    // countTimer('31 december 2020');
     // setInterval(countTimer,1000, '31 december 2020');
 });

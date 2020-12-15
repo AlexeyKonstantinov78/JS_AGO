@@ -1,24 +1,27 @@
 /* eslint-disable strict */
 /* eslint-disable space-before-blocks */
 /* eslint-disable prefer-arrow-callback */
+// eslint-disable-next-line arrow-parens
 window.addEventListener('DOMContentLoaded', function(){
     'use strict';
 
     //Timer
     function countTimer(deadline){
-        let timerHours = document.querySelector('#timer-hours'),
+        const timerHours = document.querySelector('#timer-hours'),
             timerMinutes = document.querySelector('#timer-minutes'),
             timerSeconds = document.querySelector('#timer-seconds');
         const idInterval = setInterval(countTimer, 1000, deadline);
 
         function getTimerRemin(){
-            let dateStop = new Date(deadline).getTime(),
+            const dateStop = new Date(deadline).getTime(),
                 dateNow = new Date().getTime(),
                 timeRemaining = (dateStop - dateNow) / 1000,
                 seconds = Math.floor(timeRemaining % 60),
                 minutes = Math.floor((timeRemaining / 60) % 60),
                 hours = Math.floor(timeRemaining / 60 / 60);
-            return {timeRemaining, hours, minutes, seconds};
+            return {
+                timeRemaining, hours, minutes, seconds
+            };
         }
 
         function decZero(n) {
@@ -27,7 +30,7 @@ window.addEventListener('DOMContentLoaded', function(){
         }
 
         function updateClock(){
-            let timer = getTimerRemin();
+            const timer = getTimerRemin();
 
             timerHours.textContent = decZero(timer.hours);
             timerMinutes.textContent = decZero(timer.minutes);
@@ -45,7 +48,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
     }
 
-    countTimer('15 december 2020');
+    countTimer('31 december 2020');
     // setInterval(countTimer,1000, '31 december 2020');
 
     //menu
@@ -96,7 +99,7 @@ window.addEventListener('DOMContentLoaded', function(){
         closeBtn.addEventListener('click', () => {
             handlerMenu();
         });
-
+        // eslint-disable-next-line arrow-parens
         menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
 
     };
@@ -109,6 +112,7 @@ window.addEventListener('DOMContentLoaded', function(){
             popupBtn = document.querySelectorAll('.popup-btn'),
             popUpClose = document.querySelector('.popup-close');
 
+        // eslint-disable-next-line arrow-parens
         popupBtn.forEach((elem) => {
             elem.addEventListener('click', () => {
                 popup.style.display = 'block';

@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
     }
 
-    countTimer('31 december 2020');
+    countTimer('15 december 2020');
     // setInterval(countTimer,1000, '31 december 2020');
 
     //menu
@@ -57,7 +57,37 @@ window.addEventListener('DOMContentLoaded', function(){
             menuItems = menu.querySelectorAll('ul>li');
 
         const handlerMenu = () => {
-            menu.classList.toggle('active-menu');
+            // menu.classList.toggle('active-menu');
+            if (!menu.style.transform || menu.style.transform === 'translate(-100%)') {
+                menu.style.transform = 'translate(0)';
+                console.log(menu.getBoundingClientRect());
+                if (document.documentElement.clientWidth > 768) {
+                    let count = 0;
+
+                    const timer = setInterval(function() {
+                        count += +10;
+                        const w = document.documentElement.clientWidth - menu.getBoundingClientRect().width;
+                        if (count >= w) {
+                            clearInterval(timer);
+                        } else {
+                            menu.style.left = count + 'px';
+                        }
+                    }, 20);
+                    // menu.style.cssText = `-webkit-transition: 1s;
+                    // transition: 1s;
+                    // -webkit-transform: translateX(100%);
+                    // transform: translateX(100%);`;
+                } //else{
+                //     // menu.style.cssText = `-webkit-transition: 0;
+                //     // transition: 0;
+                //     // -webkit-transform: translateX(0);
+                //     // transform: translateX(0);`;
+                // }
+            } else {
+                menu.style.transform = 'translate(-100%)';
+                menu.style.left = '';
+            }
+
         };
 
         btnMenu.addEventListener('click', () => {

@@ -129,16 +129,15 @@ window.addEventListener('DOMContentLoaded', function(){
 
         tabHeader.addEventListener('click', (event) => {
             let target = event.target;
-            while (target !== tabHeader){
-                if (target.classList.contains('service-header-tab')){
-                    tab.forEach((item, i) => {
-                        if (item === target) {
-                            toogleTabContent(i);
-                        }
-                    });
-                    return;
-                }
-                target = target.parentNode;
+            console.log(target);
+                target = target.closest('.service-header-tab'); // проверка селектора на селект. возвращает null tclb не нашол селектор и поднимается только вверх
+            console.log(target);
+            if (target){
+                tab.forEach((item, i) => {
+                    if (item === target) {
+                        toogleTabContent(i);
+                    }
+                });
             }
         });
     };

@@ -53,24 +53,19 @@ window.addEventListener('DOMContentLoaded', function(){
     //menu
     const toggleMenu = () => {
 
-        const btnMenu = document.querySelector('.menu'),
-            menu = document.querySelector('menu'),
-            closeBtn = document.querySelector('.close-btn'),
-            menuItems = menu.querySelectorAll('ul>li');
+        const menu = document.querySelector('menu'),
+            body = document.querySelector('body');
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
         };
 
-        btnMenu.addEventListener('click', () => {
-            handlerMenu();
+        body.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.closest('.menu')) handlerMenu();
+            if (target.closest('.close-btn')) handlerMenu();
+            if (target.closest('ul')) handlerMenu();
         });
-        closeBtn.addEventListener('click', () => {
-            handlerMenu();
-        });
-        // eslint-disable-next-line arrow-parens
-        menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
-
     };
 
     toggleMenu();
@@ -79,11 +74,11 @@ window.addEventListener('DOMContentLoaded', function(){
     const togglePopUp = () => {
         const popup = document.querySelector('.popup'),
             popupContent = document.querySelector('.popup-content'),
-            popupBtn = document.querySelectorAll('.popup-btn'),
-            popUpClose = document.querySelector('.popup-close');
+            popupBtn = document.querySelectorAll('.popup-btn');
 
         popupBtn.forEach((elem) => {
-            elem.addEventListener('click', () => {
+            elem.addEventListener('click', (e) => {
+                e.preventDefault();
                 popup.style.display = 'block';
                 popupContent.style.top = '30%';
                 if (document.documentElement.offsetWidth >= 768) {
@@ -102,8 +97,17 @@ window.addEventListener('DOMContentLoaded', function(){
             });
         });
 
-        popUpClose.addEventListener('click', () => {
-            popup.style.display = 'none';
+        popup.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if (target.classList.contains('popup-close')) {
+                popup.style.display = 'none';
+            } else {
+                target = target.closest('.popup-content');
+                if (!target) {
+                    popup.style.display = 'none';
+                }
+            }
         });
     };
 
@@ -129,9 +133,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
         tabHeader.addEventListener('click', (event) => {
             let target = event.target;
-            console.log(target);
                 target = target.closest('.service-header-tab'); // проверка селектора на селект. возвращает null tclb не нашол селектор и поднимается только вверх
-            console.log(target);
             if (target){
                 tab.forEach((item, i) => {
                     if (item === target) {

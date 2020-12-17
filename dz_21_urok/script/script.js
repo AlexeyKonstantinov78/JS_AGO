@@ -62,11 +62,10 @@ window.addEventListener('DOMContentLoaded', function(){
 
         body.addEventListener('click', (event) => {
             let target = event.target;
-            console.log(target);
             if (!target.closest('.active-menu') && menu.classList.contains('active-menu') === true) handlerMenu();
             if (target.closest('.menu')) handlerMenu();
             if (target.closest('.close-btn')) handlerMenu();
-            if (target.closest('ul')) handlerMenu();
+            if (target.closest('ul') && target.closest('menu') !== null) handlerMenu()
         });
     };
 

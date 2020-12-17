@@ -150,9 +150,19 @@ window.addEventListener('DOMContentLoaded', function(){
     //слайдер
     const slider = () => { 
         const slide = document.querySelectorAll('.portfolio-item'),
-            btn = document.querySelectorAll('.portfolio-btn'),
-            dot = document.querySelectorAll('.dot'),
             slider = document.querySelector('.portfolio-content');
+
+        let dot = document.querySelectorAll('.dot');
+
+        const addDot = (index) => {
+            for (let i = 0; i < index; i++) {
+                let li = document.createElement('li');
+                li.classList.add('dot');
+                document.querySelector('.portfolio-dots').append(li);
+            }
+            dot = document.querySelectorAll('.dot');
+            nextSlide(dot, 0, 'dot-active');
+        };
 
         let currentSlide = 0,
             interval;
@@ -176,6 +186,7 @@ window.addEventListener('DOMContentLoaded', function(){
         };
 
         const startSlide = (time = 1500) => {
+            if (dot.length === 0) addDot(slide.length);
             interval = setInterval(autoPlaySlide, time);
         };
 

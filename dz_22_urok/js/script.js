@@ -67,8 +67,12 @@ class Todo {
 
     completedItem(key) {
         this.todoData.forEach((val, keyMap) => {
-            if (key === keyMap) val.completed = true;
-        })
+            if (key === keyMap) {
+                if (val.completed !== true) {
+                    val.completed = true;
+                } else {val.completed = false;}
+            }
+        });
         this.addToStorage();
         this.render();
     }

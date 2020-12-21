@@ -240,5 +240,46 @@ window.addEventListener('DOMContentLoaded', function(){
 
     slider();
 
+    // наша команда
+    const blockOurTeam = () => {
+        const command = document.querySelector('.command>.container>.row');
+        let imgoriginal;
+        command.addEventListener('mouseover', (event) => {
+            if (event.target.matches('img')) {
+                imgoriginal = event.target.src;
+                event.target.src = event.target.dataset.img;
+            }
+        });
+        command.addEventListener('mouseout', (event) => {
+            if (event.target.matches('img')) {
+                event.target.src = imgoriginal;
+            }
+        });
+    };
+
+    blockOurTeam();
+
+    //калькулятор 
+    const calc = () => {
+        const calcBlock = document.querySelector('.calc-block'),
+            calcSquare = document.querySelector('.calc-square'),
+            calcCount = document.querySelector('.calc-count'),
+            calcDay = document.querySelector('.calc-day');
+
+        calcBlock.addEventListener('input', (e) => {
+            if (e.target.matches('.calc-square')) {
+                calcSquare.value = calcSquare.value.replace(/\D/g, '');
+            }
+            if (e.target.matches('.calc-count')) {
+                calcCount.value = calcCount.value.replace(/\D/g, '');
+            }
+            if (e.target.matches('.calc-day')) {
+                calcDay.value = calcDay.value.replace(/\D/g, '');
+            }
+        });
+    };
+
+    calc();
+
 });
 

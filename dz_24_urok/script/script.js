@@ -260,26 +260,63 @@ window.addEventListener('DOMContentLoaded', function(){
     blockOurTeam();
 
     //калькулятор 
-    const calc = () => {
+    const calc = (price = 100) => {
         const calcBlock = document.querySelector('.calc-block'),
+            calcType = document.querySelector('.calc-type'),
             calcSquare = document.querySelector('.calc-square'),
             calcCount = document.querySelector('.calc-count'),
-            calcDay = document.querySelector('.calc-day');
+            calcDay = document.querySelector('.calc-day'),
+            totalValue = document.getElementById('total');
 
-        calcBlock.addEventListener('input', (e) => {
-            if (e.target.matches('.calc-square')) {
-                calcSquare.value = calcSquare.value.replace(/\D/g, '');
+        const countSum = () => {
+            let total = 0,
+                countValue = 1,
+                dayValue = 1;
+
+            calcSquare.value = calcSquare.value.replace(/\D/g, '');
+            calcCount.value = calcCount.value.replace(/\D/g, '');
+            calcDay.value = calcDay.value.replace(/\D/g, '');
+
+            const typeValue = calcType.options[calcType.selectedIndex].value,
+                squareValue = +calcSquare.value;
+
+            if (calcCount.value > 1) {
+                countValue += (calcCount.value - 1) / 10;
             }
-            if (e.target.matches('.calc-count')) {
-                calcCount.value = calcCount.value.replace(/\D/g, '');
+
+            if (calcDay.value && calcDay.value < 5) {
+                dayValue *= 2;
+            } else if (calcDay.value && calcDay.value < 10) {
+                dayValue *= 1.5;
             }
-            if (e.target.matches('.calc-day')) {
-                calcDay.value = calcDay.value.replace(/\D/g, '');
+
+            if (typeValue && squareValue) {
+                total = price * typeValue * squareValue * countValue * dayValue;
             }
+
+            totalValue.textContent = total;
+        };
+
+        calcBlock.addEventListener('change', (event) => {
+            const target = event.target;
+            // eslint-disable-next-line max-len
+            if (target.matches('.calc-type') || target.matches('.calc-square') || target.matches('.calc-count') || target.matches('.calc-day')) {
+                countSum();
+            }
+
+            // if (target.matches('.calc-square')) {
+            //      calcSquare.value = calcSquare.value.replace(/\D/g, '');
+            // }
+            // if (target.matches('.calc-count')) {
+                
+            // }
+            // if (target.matches('.calc-day')) {
+            //     calcDay.value = calcDay.value.replace(/\D/g, '');
+            // }
         });
     };
 
-    calc();
+    calc(100);
 
 });
 

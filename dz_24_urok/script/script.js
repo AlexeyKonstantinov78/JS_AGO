@@ -277,7 +277,7 @@ window.addEventListener('DOMContentLoaded', function(){
                 count--;
             }
 
-            if (count != total) {
+            if (count !== total) {
                 requestAnimationFrame(bruteForceNumbers);
             }
             totalValue.textContent = count;
@@ -286,10 +286,6 @@ window.addEventListener('DOMContentLoaded', function(){
         const countSum = () => {
             let countValue = 1,
                 dayValue = 1;
-
-            calcSquare.value = calcSquare.value.replace(/\D/g, '');
-            calcCount.value = calcCount.value.replace(/\D/g, '');
-            calcDay.value = calcDay.value.replace(/\D/g, '');
 
             const typeValue = calcType.options[calcType.selectedIndex].value,
                 squareValue = +calcSquare.value;

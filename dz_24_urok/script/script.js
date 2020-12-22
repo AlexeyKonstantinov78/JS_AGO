@@ -267,10 +267,24 @@ window.addEventListener('DOMContentLoaded', function(){
             calcCount = document.querySelector('.calc-count'),
             calcDay = document.querySelector('.calc-day'),
             totalValue = document.getElementById('total');
+        let count = 0,
+            total = 0;
+
+        const bruteForceNumbers = () => {
+            if (count < total) {
+                count++;
+            } else {
+                count--;
+            }
+
+            if (count != total) {
+                requestAnimationFrame(bruteForceNumbers);
+            }
+            totalValue.textContent = count;
+        }; 
 
         const countSum = () => {
-            let total = 0,
-                countValue = 1,
+            let countValue = 1,
                 dayValue = 1;
 
             calcSquare.value = calcSquare.value.replace(/\D/g, '');
@@ -292,9 +306,9 @@ window.addEventListener('DOMContentLoaded', function(){
 
             if (typeValue && squareValue) {
                 total = price * typeValue * squareValue * countValue * dayValue;
+                requestAnimationFrame(bruteForceNumbers);
             }
 
-            totalValue.textContent = total;
         };
 
         calcBlock.addEventListener('change', (event) => {

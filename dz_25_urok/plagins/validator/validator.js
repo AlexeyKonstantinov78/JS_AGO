@@ -17,6 +17,7 @@ class Validator{
             this.elementsForm.forEach(elem => this.chekIt({target: elem}));
             if (this.error.size) e.preventDefault();
         });
+        console.log(this.elementsForm);
     }
 
     isValid(elem){

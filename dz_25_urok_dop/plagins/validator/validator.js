@@ -1,3 +1,6 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable no-unused-vars */
+/* eslint-disable */
 class Validator{
     constructor({selectr, pattern = {}, method}){
         this.form = document.querySelector(selectr);
@@ -17,6 +20,7 @@ class Validator{
             this.elementsForm.forEach(elem => this.chekIt({target: elem}));
             if (this.error.size) e.preventDefault();
         });
+        console.log(this.elementsForm);
     }
 
     isValid(elem){

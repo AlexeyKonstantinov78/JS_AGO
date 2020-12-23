@@ -410,6 +410,59 @@
 		</div>
 	</div>
 </div>
-	<script src="script/script.js"></script>
+	
 </body>
+	<script src="/plagins/validator/validator.js"></script>
+	<script>
+		const form1 = new Validator({
+			selectr: '#form1',
+			pattern: {
+				'form1-name': /^[А-Яа-яёЁ]*$/
+			},
+			method: {
+				'form1-name': [
+					['notEmpty'],
+					['pattern', 'form1-name']
+				]
+			}
+		});
+
+		form1.init();
+
+		const form2 = new Validator({
+			selectr: '#form2',
+			pattern: {
+				'form2-name': /^[А-Яа-яёЁ]*$/
+			},
+			method: {
+				'form2-name': [
+					['notEmpty'],
+					['pattern', 'form2-name']
+				],
+				'form2-message': [
+					['notEmpty'],
+					['pattern', 'form2-name']
+				]
+			}
+		});
+
+		form2.init();
+
+		const form3 = new Validator({
+			selectr: '#form3',
+			pattern: {
+				'form3-name': /^[А-Яа-яёЁ]*$/
+			},
+			method: {
+				'form3-name': [
+					['notEmpty'],
+					['pattern', 'form3-name']
+				]				
+			}
+		});
+
+		form3.init();
+
+	</script>
+	<script src="script/script.js"></script>
 </html>

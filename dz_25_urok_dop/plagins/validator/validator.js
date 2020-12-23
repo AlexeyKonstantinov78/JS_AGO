@@ -11,7 +11,7 @@ class Validator{
         });
         this.error = new Set();
     }
-
+    
     init() {
         this.applyStyle();
         this.setPattern();

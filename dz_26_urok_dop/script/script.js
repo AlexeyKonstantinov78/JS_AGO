@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', function(){
             if (!target.closest('.active-menu') && menu.classList.contains('active-menu') === true) handlerMenu();
             if (target.closest('.menu')) handlerMenu();
             if (target.closest('.close-btn')) handlerMenu();
-            if (target.closest('ul') && target.closest('menu') !== null) handlerMenu()
+            if (target.closest('a') && target.closest('menu') !== null && !target.closest('.close-btn')) handlerMenu();
         });
     };
 
@@ -270,25 +270,30 @@ window.addEventListener('DOMContentLoaded', function(){
             calcCount = document.querySelector('.calc-count'),
             calcDay = document.querySelector('.calc-day'),
             totalValue = document.getElementById('total');
-        let count = 0,
-            total = 0;
 
-        const bruteForceNumbers = () => {
+        const bruteForceNumbers = (total, count = 0) => {
+            let time = 1,//ms
+                step = Math.ceil((total / (time * 1000)) * 11);
+
             if (count < total) {
-                count++;
-            } else {
-                count--;
+                count += +step;
             }
 
-            if (count !== total) {
-                requestAnimationFrame(bruteForceNumbers);
+            if (count < total) {
+                setTimeout(requestAnimationFrame(() => {
+                    bruteForceNumbers(total, count);
+                }), time);
+            } else {
+                totalValue.textContent = Math.round(total);
+                return;    
             }
             totalValue.textContent = count;
         }; 
 
         const countSum = () => {
             let countValue = 1,
-                dayValue = 1;
+                dayValue = 1,
+                total = 0;
 
             const typeValue = calcType.options[calcType.selectedIndex].value,
                 squareValue = +calcSquare.value;
@@ -305,7 +310,9 @@ window.addEventListener('DOMContentLoaded', function(){
 
             if (typeValue && squareValue) {
                 total = price * typeValue * squareValue * countValue * dayValue;
-                requestAnimationFrame(bruteForceNumbers);
+                requestAnimationFrame(() => {
+                    bruteForceNumbers(total);
+                });
             }
 
         };
@@ -335,8 +342,9 @@ window.addEventListener('DOMContentLoaded', function(){
     const sendForm = () => {
         const errorMessage = 'Что то пошло не так...',
             //loadMessage = 'Загрузка...',
-            successMesage = 'Спсасибо! Мы скоро с вами свяжемся!';
-        const preloader = document.createElement('div');
+            successMesage = 'Спсасибо! Мы скоро с вами свяжемся!',
+            formAll = document.querySelectorAll('form'),
+            preloader = document.createElement('div');
             preloader.classList.add('preloader');
             preloader.innerHTML = `
                 <div class="circle circle-1"></div>
@@ -345,18 +353,17 @@ window.addEventListener('DOMContentLoaded', function(){
                 <div class="circle circle-4"></div>
                 <div class="circle circle-5"></div>                
                 `;
-        const formAll = document.querySelectorAll('form');
-           
+
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem; color: #FFFFFF;';
         //form.appendChild(statusMessage);
 
         formAll.forEach((item) => {
-            item.addEventListener('input', event => inputVerifi(event.target));
-
+            item.addEventListener('input', event => inputVerifi(event.target, item));
+            
             item.addEventListener('submit', (event) => {
                 event.preventDefault();
-                item.appendChild(preloader);
+                
                 item.appendChild(statusMessage);
                 statusMessage.textContent = '';
                 const formData = new FormData(item);
@@ -370,24 +377,41 @@ window.addEventListener('DOMContentLoaded', function(){
                 formData.forEach((val, key) => {
                     body[key] = val;
                 });
-                postData(body, 
-                    () => {
-                        item.removeChild(preloader);
-                        statusMessage.textContent = successMesage;
-                    }, 
-                    (error) => {
-                        item.removeChild(preloader);
-                        statusMessage.textContent = errorMessage;
-                        console.error(error);
-                    });
-               
-                inputItem(item);
+                
+                if ((body.user_name !== '' && body.user_email !== '' && body.user_phone !== '' && (body.user_message === undefined || body.user_message !== ''))) {
+                    item.appendChild(preloader);
+                    postData(body, 
+                        () => {
+                            item.removeChild(preloader);
+                            statusMessage.textContent = successMesage;
+                            removeTheThankYouText(item);
+                        }, 
+                        (error) => {
+                            item.removeChild(preloader);
+                            statusMessage.textContent = errorMessage;
+                            removeTheThankYouText(item);
+                            console.error(error);
+                        });
+                    inputItem(item);
+                } else { 
+                    statusMessage.textContent = errorMessage;
+                }
             });
         });
+        
+        const removeTheThankYouText = (item) => {
+            setTimeout(() => {
+                item.removeChild(statusMessage);
+            }, 5000);
+        }
 
-        const inputVerifi = (item) => {
-            if (item.closest('.form-phone')) {
-                item.value = item.value.replace(/[^\+0-9]/gi, '');
+        const inputVerifi = (item, form) => {
+
+            if (item.closest('.form-phone')) { 
+                item.value = item.value.substring(0, 12).replace(/[^\+0-9]/g, '') + item.value.substring(11, ).replace(/./g, '');
+                    if (/^\+?([-()]*\d){8,11}$/.test(item.value) && item.value.length >= 8 && item.value.length <= 12) {
+                        item.style.border = '';
+                    } else {item.style.border = 'solid red';}  
             }
             
             if (item.closest('.form-name') || item.closest('#form2-name')) {
@@ -396,6 +420,10 @@ window.addEventListener('DOMContentLoaded', function(){
             
             if (item.closest('.form-email')) {
                 item.value = item.value.replace(/[^\w+@\w+\.\w]/gi, '');
+                
+                if (/^\w+@\w+\.\w{2,}$/g.test(item.value)) {
+                    item.style.border = '';
+                } else {item.style.border = 'solid red';}  
             }
             
             if (item.closest('.mess')) {
